@@ -6,6 +6,7 @@ on:
     paths:
       - Dockerfile
       - entrypoint.sh
+      - run_sse.py
       - chart/**
       - .github/workflows/build.yml
   workflow_dispatch:
