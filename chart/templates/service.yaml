@@ -12,5 +12,15 @@ spec:
       targetPort: mcp
       protocol: TCP
       name: mcp
+    - port: {{ .Values.camera.apiPort }}
+      targetPort: camera-api
+      protocol: TCP
+      name: camera-api
+    {{- range $port := until (int (add1 (sub .Values.camera.streamPortEnd .Values.camera.streamPortStart))) }}
+    - port: {{ add $.Values.camera.streamPortStart $port }}
+      targetPort: stream-{{ add $.Values.camera.streamPortStart $port }}
+      protocol: TCP
+      name: stream-{{ add $.Values.camera.streamPortStart $port }}
+    {{- end }}
   selector:
     {{- include "bambu-mcp.selectorLabels" . | nindent 4 }}

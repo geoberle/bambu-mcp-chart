@@ -7,7 +7,7 @@ RUN apt-get update \
 RUN git clone --depth 1 https://github.com/synman/bambu-mcp.git /app
 WORKDIR /app
 RUN pip install --no-cache-dir . matplotlib
-COPY run_sse.py /app/run_sse.py
+COPY run_sse.py patch_urls.py /app/
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

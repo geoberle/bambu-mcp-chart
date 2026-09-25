@@ -6,6 +6,11 @@ image:
 service:
   port: 3003
 
+camera:
+  apiPort: 3004
+  streamPortStart: 3005
+  streamPortEnd: 3007
+
 printer:
   name: ""
   ip: ""

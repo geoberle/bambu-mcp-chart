@@ -29,6 +29,14 @@ spec:
               value: "0.0.0.0"
             - name: PORT
               value: {{ .Values.service.port | quote }}
+            - name: BAMBU_PUBLIC_HOST
+              value: "{{ .Chart.Name }}.{{ .Release.Namespace }}.svc.cluster.local"
+            - name: BAMBU_API_PORT
+              value: {{ .Values.camera.apiPort | quote }}
+            - name: BAMBU_PORT_POOL_START
+              value: {{ .Values.camera.streamPortStart | quote }}
+            - name: BAMBU_PORT_POOL_END
+              value: {{ .Values.camera.streamPortEnd | quote }}
             - name: PRINTER_NAME
               valueFrom:
                 secretKeyRef:
@@ -53,5 +61,13 @@ spec:
             - name: mcp
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+            - name: camera-api
+              containerPort: {{ .Values.camera.apiPort }}
+              protocol: TCP
+            {{- range $port := until (int (add1 (sub .Values.camera.streamPortEnd .Values.camera.streamPortStart))) }}
+            - name: stream-{{ add $.Values.camera.streamPortStart $port }}
+              containerPort: {{ add $.Values.camera.streamPortStart $port }}
+              protocol: TCP
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

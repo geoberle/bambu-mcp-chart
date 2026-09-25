@@ -24,6 +24,9 @@ import threading
 import server
 from mcp.server.transport_security import TransportSecuritySettings
 
+import patch_urls
+patch_urls.apply()
+
 server.mcp.settings.host = os.environ.get("HOST", "0.0.0.0")
 server.mcp.settings.port = int(os.environ.get("PORT", "3003"))
 server.mcp.settings.transport_security = TransportSecuritySettings(enable_dns_rebinding_protection=False)
